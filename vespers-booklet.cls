@@ -25,6 +25,9 @@
 
 \checkandfixthelayout
 
+\tolerance=5000
+\pretolerance=3000
+
 \setlength{\parskip}{4pt plus 2pt minus 1pt}
 \setlength{\parindent}{0pt}
 \setlength{\stanzaskip}{4pt plus 2pt minus 1pt}
