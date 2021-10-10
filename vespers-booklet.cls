@@ -62,6 +62,15 @@
 \newenvironment{latinenglishsection}
 	{\columnratio{.5, .5} \begin{paracol}{2}}
 	{\end{paracol}}
+	
+\newenvironment{rubricbox}
+{
+	\begin{mdframed}
+%	\begin{minipage}{0.8\linewidth}
+}{
+%	\end{minipage}
+	\end{mdframed}
+}
 
 \newenvironment{versicles}{\par\leavevmode\parskip=0pt}{}
 
