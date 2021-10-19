@@ -24,19 +24,31 @@ def make_header(old_header, chant_id, tone):
                 + old_header[:-1]
                 + [f"annotation:{tone};", "%%"] )
 
+unicode_escapes = {
+    "ae": "\u00e6",
+    "Ae": "\u00c6",
+    "AE": "\u00c6",
+    "\u0153": "<sp>oe</sp>",
+    "\u01fd": "<sp>'ae</sp>",
+    "áe": "<sp>'ae</sp>",
+    "\u2020": "+"
+}
+
 def escape_unicode_chars(content):
     return list([escape_unicode_chars_str(s) for s in content])
 
 def escape_unicode_chars_str(s):
     if "oe" in s:
         print("Text contains sequence OE, can't tell if it should be joined")
-    return ( s.replace("ae", "\u00e6")
-                .replace("Ae", "\u00c6")
-                .replace("AE", "\u00c6")
-                .replace("\u0153", "<sp>oe</sp>")
-                .replace("\u01fd", "<sp>'ae</sp>'")
-                .replace("áe", "<sp>'ae</sp>'")
-                .replace("\u2020", "+") )
+    for (k, v) in unicode_escapes.items():
+        s = s.replace(k, v)
+    return s
+
+def remove_episemas(content):
+    return list([remove_episemas_str(s) for s in content])
+
+def remove_episemas_str(s):
+    return s.replace("'", "").replace("_", "")
 
 INTONATION_REGEX_STR = r"\([cf]b?\d\).{2,}\*"
 INTONATION_REGEX = re.compile(INTONATION_REGEX_STR)
@@ -53,12 +65,15 @@ def main():
     parser.add_argument("tone")
     parser.add_argument("output_name")
     parser.add_argument("-s", "--semidouble", action="store_true")
+    parser.add_argument("-g", "--g-and-a", action="store_true")
     args = parser.parse_args()
 
     gabc_lines = download_gabc(args.chant_id)
     header, content = split_header_and_content(gabc_lines)
     new_header = make_header(header, args.chant_id, args.tone)
     new_content = escape_unicode_chars(content)
+    if args.g_and_a:
+        new_content = remove_episemas(new_content)
 
     with open(f"{args.output_name}-antiphon.gabc", "w") as antiphon_out:
         antiphon_out.write("\n".join(new_header))
