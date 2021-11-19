@@ -17,8 +17,8 @@
 
 % memoir page format setup
 \settrims{0pt}{0pt}
-\settypeblocksize{7in}{4.25in}{*}
-\setlrmargins{*}{*}{1.4}
+\settypeblocksize{7in}{4.5in}{*}
+\setlrmargins{*}{*}{1}
 \setulmargins{*}{*}{1.2}
 \setheadfoot{\onelineskip}{2\onelineskip}
 \setheaderspaces{*}{.8\onelineskip}{*}
@@ -32,7 +32,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\stanzaskip}{4pt plus 2pt minus 1pt}
 
-\pagestyle{plain}
+\pagestyle{empty}
 
 \titleformat{\chapter}[display]{\huge\scshape\filcenter}{}{1em}{}
 %% no spacing before "chapter" headings

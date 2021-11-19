@@ -71,9 +71,12 @@ def main():
     gabc_lines = download_gabc(args.chant_id)
     header, content = split_header_and_content(gabc_lines)
     new_header = make_header(header, args.chant_id, args.tone)
-    new_content = escape_unicode_chars(content)
+    # do this before unicode escapes
+    # because it removes ' which is used in escapes
+    new_content = content
     if args.g_and_a:
         new_content = remove_episemas(new_content)
+    new_content = escape_unicode_chars(new_content)
 
     with open(f"{args.output_name}-antiphon.gabc", "w") as antiphon_out:
         antiphon_out.write("\n".join(new_header))
